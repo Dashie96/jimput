@@ -36,11 +36,7 @@
  * the design, construction, operation or maintenance of any nuclear facility
  *
  *****************************************************************************/
-package contorller;
-
-import java.awt.EventQueue;
-import net.java.games.input.Component;
-import net.java.games.input.Rumbler;
+package net.java.games.input;
 
 /**
  * A Controller represents a physical device, such as a keyboard, mouse,
