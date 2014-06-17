@@ -52,12 +52,15 @@ public interface Controller {
      * an empty array if this controller contains no child controllers.
      * The objects in the array are returned in order of assignment priority
      * (primary stick, secondary buttons, etc.).
+     * @return 
      */
     public abstract Controller[] getControllers();
 
     /**
      * Returns the type of the Controller.
+     * @return 
      */
+
     public abstract Type getType();
 
     /**
@@ -68,50 +71,60 @@ public interface Controller {
      * (if present).
      * The array returned is an empty array if this controller contains no components
      * (such as a logical grouping of child controllers).
+     * @return 
      */
     public abstract Component[] getComponents();
 
     /**
      * Returns a single axis based on its type, or null
      * if no axis with the specified type could be found.
+     * @param id
+     * @return 
      */
     public abstract Component getComponent(Component.Identifier id);
 
     /**
      * Returns the rumblers for sending feedback to this controller, or an
      * empty array if there are no rumblers on this controller.
+     * @return 
      */
     public abstract Rumbler[] getRumblers();
 
     /**
      * Polls axes for data.  Returns false if the controller is no longer valid.
      * Polling reflects the current state of the device when polled.
+     * @return 
      */
     public abstract boolean poll();
 
     /**
      * Initialized the controller event queue to a new size. Existing events
 	 * in the queue are lost.
+     * @param size
      */
 	public abstract void setEventQueueSize(int size);
 
 	/**
 	 * Get the device event queue
+     * @return 
 	 */
 	public abstract EventQueue getEventQueue();
 
     /**
      * Returns the port type for this Controller.
+     * @return 
      */
     public abstract PortType getPortType();
 
     /**
      * Returns the zero-based port number for this Controller.
+     * @return 
      */
     public abstract int getPortNumber();
 
     /**
      * Returns a human-readable name for this Controller.
+     * @return 
      */
     public abstract String getName();
     
@@ -127,6 +140,7 @@ public interface Controller {
         
         /**
          * Protected constructor
+         * @param name
          */
         protected Type(String name) {
             this.name = name;
@@ -134,7 +148,9 @@ public interface Controller {
         
         /**
          * Returns a non-localized string description of this controller type.
+         * @return 
          */
+        @Override
         public String toString() {
             return name;
         }
@@ -212,6 +228,7 @@ public interface Controller {
         
         /**
          * Protected constructor
+         * @param name
          */
         protected PortType(String name) {
             this.name = name;
@@ -219,7 +236,9 @@ public interface Controller {
         
         /**
          * Returns a non-localized string description of this port type.
+         * @return 
          */
+        @Override
         public String toString() {
             return name;
         }

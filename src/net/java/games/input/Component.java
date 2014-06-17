@@ -47,6 +47,7 @@ public interface Component {
 
     /**
      * Returns the identifier of the axis.
+     * @return 
      */
     public abstract Identifier getIdentifier();
 
@@ -54,11 +55,13 @@ public interface Component {
      * Returns <code>true</code> if data returned from <code>poll</code>
      * is relative to the last call, or <code>false</code> if data
      * is absolute.
+     * @return 
      */
     public abstract boolean isRelative();
 
     /**
      * Returns whether or not the axis is analog, or false if it is digital.
+     * @return 
      */
     public abstract boolean isAnalog();
 
@@ -67,6 +70,7 @@ public interface Component {
      * amount polled data can vary before considered a significant change
      * in value.  An application can safely ignore changes less than this
      * value in the positive or negative direction.
+     * @return 
      * @see #getPollData
      */
     public abstract float getDeadZone();
@@ -76,12 +80,14 @@ public interface Component {
      * If this axis is a button, the value returned will be either 0.0f or 1.0f.
      * If this axis is normalized, the value returned will be between -1.0f and
      * 1.0f.
+     * @return 
      * @see Controller#poll
      */
     public abstract float getPollData();
 
     /**
      * Returns a human-readable name for this axis.
+     * @return 
      */
     public abstract String getName();
     
@@ -97,6 +103,7 @@ public interface Component {
         
         /**
          * Protected constructor
+         * @param name
          */
         protected Identifier(String name) {
             this.name = name;
@@ -104,6 +111,7 @@ public interface Component {
         
         /**
          * Returns a non-localized string description of this axis type.
+         * @return 
          */
         public String getName() {
             return name;
@@ -111,7 +119,9 @@ public interface Component {
         
         /**
          * Returns a non-localized string description of this axis type.
+         * @return 
          */
+        @Override
         public String toString() {
             return name;
         }

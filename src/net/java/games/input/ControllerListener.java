@@ -45,11 +45,13 @@ public interface ControllerListener {
 
     /**
      * Invoked when a controller is lost.
+     * @param ev
      */
     public abstract void controllerRemoved(ControllerEvent ev);
 
     /**
      * Invoked when a controller has been added.
+     * @param ev
      */
     public abstract void controllerAdded(ControllerEvent ev);
 } // interface ControllerListener

@@ -38,9 +38,6 @@
  *****************************************************************************/
 package net.java.games.input;
 
-import java.io.File;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Logger;
@@ -81,6 +78,7 @@ public abstract class ControllerEnvironment {
     /**
      * The default controller environment
      */
+    @SuppressWarnings("FieldMayBeFinal")
     private static ControllerEnvironment defaultEnvironment =
         new DefaultControllerEnvironment();
     
@@ -98,11 +96,13 @@ public abstract class ControllerEnvironment {
     /**
      * Returns a list of all controllers available to this environment,
      * or an empty array if there are no controllers in this environment.
+     * @return 
      */
     public abstract Controller[] getControllers();
     
     /**
      * Adds a listener for controller state change events.
+     * @param l
      */
     public void addControllerListener(ControllerListener l) {
         assert l != null;
@@ -113,11 +113,13 @@ public abstract class ControllerEnvironment {
      * Returns the isSupported status of this environment.
      * What makes an environment supported or not is up to the
      * particular plugin, but may include OS or available hardware.
+     * @return 
      */
     public abstract boolean isSupported();
     
     /**
      * Removes a listener for controller state change events.
+     * @param l
      */
     public void removeControllerListener(ControllerListener l) {
         assert l != null;
@@ -127,6 +129,7 @@ public abstract class ControllerEnvironment {
     /**
      * Creates and sends an event to the controller listeners that a controller
      * has been added.
+     * @param c
      */
     protected void fireControllerAdded(Controller c) {
         ControllerEvent ev = new ControllerEvent(c);
@@ -139,6 +142,7 @@ public abstract class ControllerEnvironment {
     /**
      * Creates and sends an event to the controller listeners that a controller
      * has been lost.
+     * @param c
      */
     protected void fireControllerRemoved(Controller c) {
         ControllerEvent ev = new ControllerEvent(c);
@@ -151,6 +155,7 @@ public abstract class ControllerEnvironment {
     /**
      * Returns the default environment for input controllers.
      * This usually corresponds to the environment for the local machine.
+     * @return 
      */
     public static ControllerEnvironment getDefaultEnvironment() {
         return defaultEnvironment;

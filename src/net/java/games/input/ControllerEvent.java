@@ -43,10 +43,12 @@ package net.java.games.input;
  */
 public class ControllerEvent {
 
+    @SuppressWarnings("FieldMayBeFinal")
     private Controller controller;
 
     /**
      * Creates a controller event object.
+     * @param c
      */
     public ControllerEvent(Controller c) {
         controller = c;
@@ -54,6 +56,7 @@ public class ControllerEvent {
 
     /**
      * Returns the controller for this event.
+     * @return 
      */
     public Controller getController() {
         return controller;

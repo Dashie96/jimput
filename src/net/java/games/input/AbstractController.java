@@ -39,10 +39,7 @@
 package net.java.games.input;
 
 import java.util.Map;
-import java.util.List;
 import java.util.HashMap;
-import java.util.ArrayList;
-
 import java.io.IOException;
 
 /**
@@ -105,7 +102,9 @@ public abstract class AbstractController implements Controller {
      * an empty array if this controller contains no child controllers.
      * The objects in the array are returned in order of assignment priority
      * (primary stick, secondary buttons, etc.).
+     * @return 
      */
+        @Override
     public final Controller[] getControllers() {
         return children;
     }
@@ -118,7 +117,9 @@ public abstract class AbstractController implements Controller {
      * (if present).
      * The array returned is an empty array if this controller contains no components
      * (such as a logical grouping of child controllers).
+     * @return 
      */
+        @Override
     public final Component[] getComponents() {
         return components;
     }
@@ -126,7 +127,10 @@ public abstract class AbstractController implements Controller {
     /**
      * Returns a single component based on its identifier, or null
      * if no component with the specified type could be found.
+     * @param id
+     * @return 
      */
+        @Override
     public final Component getComponent(Component.Identifier id) {
 		return (Component)id_to_components.get(id);
     }
@@ -134,7 +138,9 @@ public abstract class AbstractController implements Controller {
     /**
      * Returns the rumblers for sending feedback to this controller, or an
      * empty array if there are no rumblers on this controller.
+     * @return 
      */
+        @Override
     public final Rumbler[] getRumblers() {
         return rumblers;
     }
@@ -143,6 +149,7 @@ public abstract class AbstractController implements Controller {
      * Returns the port type for this Controller.
      * @return PortType.UNKNOWN by default, can be overridden
      */
+        @Override
     public PortType getPortType() {
         return PortType.UNKNOWN;
     }
@@ -151,33 +158,42 @@ public abstract class AbstractController implements Controller {
      * Returns the zero-based port number for this Controller.
      * @return 0 by default, can be overridden
      */
+        @Override
     public int getPortNumber() {
         return 0;
     }
 
     /**
      * Returns a human-readable name for this Controller.
+     * @return 
      */
+        @Override
     public final String getName() {
         return name;
     }
     
     /**
      * Returns a non-localized string description of this controller.
+     * @return 
      */
+        @Override
     public String toString() {
         return name;
     }
     
     /** Returns the type of the Controller.
+     * @return 
      */
+        @Override
     public Type getType() {
         return Type.UNKNOWN;
     }
 
     /**
      * Creates a new EventQueue. Events in old queue are lost.
+     * @param size
      */
+        @Override
 	public final void setEventQueueSize(int size) {
 		try {
 			setDeviceEventQueueSize(size);
@@ -187,55 +203,59 @@ public abstract class AbstractController implements Controller {
 		}
 	}
 
-	/**
-	 * Plugins override this method to adjust their internal event queue size
-	 */
-	protected void setDeviceEventQueueSize(int size) throws IOException {
-	}
+    /**
+     * Plugins override this method to adjust their internal event queue size
+     * @param size
+     * @throws java.io.IOException
+    */
+    protected void setDeviceEventQueueSize(int size) throws IOException {
+    }
 
-	public final EventQueue getEventQueue() {
-		return event_queue;
-	}
+        @Override
+    public final EventQueue getEventQueue() {
+            return event_queue;
+    }
 
-	protected abstract boolean getNextDeviceEvent(Event event) throws IOException;
+    protected abstract boolean getNextDeviceEvent(Event event) throws IOException;
 
-	protected void pollDevice() throws IOException {
-	}
+    protected void pollDevice() throws IOException {
+    }
 
-	/* poll() is synchronized to protect the static event */
-	public synchronized boolean poll() {
-		Component[] components = getComponents();
-		try {
-			pollDevice();
-			for (int i = 0; i < components.length; i++) {
-				AbstractComponent component = (AbstractComponent)components[i];
-				if (component.isRelative()) {
-					component.setPollData(0);
-				} else {
-					// Let the component poll itself lazily
-					component.resetHasPolled();
-				}
-			}
-			while (getNextDeviceEvent(event)) {
-				AbstractComponent component = (AbstractComponent)event.getComponent();
-				float value = event.getValue();
-				if (component.isRelative()) {
-					if (value == 0)
-						continue;
-					component.setPollData(component.getPollData() + value);
-				} else {
-					if (value == component.getEventValue())
-						continue;
-					component.setEventValue(value);
-				}
-				if (!event_queue.isFull())
-					event_queue.add(event);
-			}
-			return true;
-		} catch (IOException e) {
-			ControllerEnvironment.logln("Failed to poll device: " + e.getMessage());
-			return false;
-		}
-	} 
+    /* poll() is synchronized to protect the static event */
+        @Override
+    public synchronized boolean poll() {
+            Component[] comps = getComponents();
+            try {
+                    pollDevice();
+                for (Component comp : comps) {
+                    AbstractComponent component = (AbstractComponent) comp;
+                    if (component.isRelative()) {
+                        component.setPollData(0);
+                    } else {
+                        // Let the component poll itself lazily
+                        component.resetHasPolled();
+                    }
+                }
+                    while (getNextDeviceEvent(event)) {
+                            AbstractComponent component = (AbstractComponent)event.getComponent();
+                            float value = event.getValue();
+                            if (component.isRelative()) {
+                                    if (value == 0)
+                                            continue;
+                                    component.setPollData(component.getPollData() + value);
+                            } else {
+                                    if (value == component.getEventValue())
+                                            continue;
+                                    component.setEventValue(value);
+                            }
+                            if (!event_queue.isFull())
+                                    event_queue.add(event);
+                    }
+                    return true;
+            } catch (IOException e) {
+                    ControllerEnvironment.logln("Failed to poll device: " + e.getMessage());
+                    return false;
+            }
+    } 
 	
 } // class AbstractController

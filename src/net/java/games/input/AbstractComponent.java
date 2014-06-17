@@ -59,6 +59,7 @@ public abstract class AbstractComponent implements Component {
     /**
      * Protected constructor
      * @param name A name for the axis
+     * @param id
      */
     protected AbstractComponent(String name, Identifier id) {
         this.name = name;
@@ -67,7 +68,9 @@ public abstract class AbstractComponent implements Component {
         
     /**
      * Returns the type or identifier of the axis.
+     * @return 
      */
+    @Override
     public Identifier getIdentifier() {
         return id;
     }
@@ -76,6 +79,7 @@ public abstract class AbstractComponent implements Component {
      * Returns whether or not the axis is analog, or false if it is digital.
      * @return false by default, can be overridden
      */
+    @Override
     public boolean isAnalog() {
         return false;
     }
@@ -87,6 +91,7 @@ public abstract class AbstractComponent implements Component {
      * value in the positive or negative direction.
      * @return 0.0f by default, can be overridden
      */
+    @Override
     public float getDeadZone() {
         return 0.0f;
     }
@@ -98,6 +103,7 @@ public abstract class AbstractComponent implements Component {
      * 1.0f.
      * @return The data from the last time the control has been polled.
      */
+    @Override
     public final float getPollData() {
 		if (!has_polled && !isRelative()) {
 			has_polled = true;
@@ -128,14 +134,18 @@ public abstract class AbstractComponent implements Component {
  
     /**
      * Returns a human-readable name for this axis.
+     * @return 
      */
+    @Override
     public String getName() {
         return name;
     }
     
     /**
      * Returns a non-localized string description of this axis.
+     * @return 
      */
+    @Override
     public String toString() {
         return name;
     }
